@@ -1,0 +1,79 @@
+[profile.default]
+src = "foundry-src"
+out = "out"
+libs = ["lib"]
+test = "foundry-test"
+script = "foundry-script"
+cache_path = "cache"
+
+solc_version = "0.8.23"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+evm_version = "paris"
+
+# ✅ allow vm.writeJson to read/write deployments/
+fs_permissions = [
+  { access = "read-write", path = "./deployments" }
+]
+
+auto_detect_remappings = false
+remappings = [
+  "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+  "@chainlink/contracts/=lib/chainlink/contracts/",
+  "forge-std/=lib/forge-std/src/",
+  "erc721a-upgradeable/=lib/ERC721A-Upgradeable/",
+  "ERC721A/=lib/ERC721A/contracts/",
+  "v3-core/=lib/v3-core/contracts/",
+  "v3-periphery/=lib/v3-periphery/contracts/"
+]
+
+[profile.slither]
+src = "foundry-src"
+out = "out"
+libs = ["lib"]
+test = "foundry-test"
+script = "foundry-script"
+cache_path = "cache"
+
+solc_version = "0.8.23"
+optimizer = true
+optimizer_runs = 200
+via_ir = true
+evm_version = "paris"
+
+build_info = true
+extra_output = ["storageLayout"]
+
+# ✅ same permission for slither profile so scripts don’t break under that profile either
+fs_permissions = [
+  { access = "read-write", path = "./deployments" }
+]
+
+auto_detect_remappings = false
+remappings = [
+  "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+  "@chainlink/contracts/=lib/chainlink/contracts/",
+  "forge-std/=lib/forge-std/src/",
+  "erc721a-upgradeable/=lib/ERC721A-Upgradeable/",
+  "ERC721A/=lib/ERC721A/contracts/",
+  "v3-core/=lib/v3-core/contracts/",
+  "v3-periphery/=lib/v3-periphery/contracts/"
+]
+
+[profile.ci]
+fuzz = { runs = 5000 }
+invariant = { runs = 1000 }
+
+[profile.ffi]
+ffi = { enabled = false }
+
+[rpc_endpoints]
+arbitrum_sepolia = "${ARBITRUM_SEPOLIA_RPC_URL}"
+arbitrum = "${ARBIRTRUM_RPC_URL}"
+
+[etherscan]
+arbitrum_sepolia = { key = "${ARBISCAN_API_KEY}" }
+arbitrum = { key = "${ARBISCAN_API_KEY}" }

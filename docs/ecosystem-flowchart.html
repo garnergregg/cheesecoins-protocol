@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheesecoins Ecosystem</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0a0e0a;
+  color: #e0e0e0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: #0d1a0d; border-bottom: 2px solid #2d4a2d;
+  padding: 0 28px; display: flex; align-items: center; gap: 20px; height: 64px;
+}
+.nav-title { color: #4ade80; font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
+.nav-div { color: #2d4a2d; font-size: 1.4rem; }
+.dw { position: relative; }
+#sel {
+  background: #1a2e1a; color: #86efac; border: 1px solid #2d4a2d;
+  border-radius: 8px; padding: 9px 38px 9px 16px; font-size: 1rem;
+  font-family: inherit; cursor: pointer; appearance: none; min-width: 320px; outline: none;
+}
+#sel:focus { border-color: #4ade80; }
+.darr { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #4ade80; }
+#ctr { color: #4b6a4b; font-size: 0.9rem; }
+.nav-btns { margin-left: auto; display: flex; gap: 8px; }
+.nbtn {
+  background: #1a2e1a; border: 1px solid #2d4a2d; color: #86efac;
+  border-radius: 8px; padding: 8px 22px; font-size: 1rem; cursor: pointer; font-family: inherit;
+  transition: background .15s;
+}
+.nbtn:hover { background: #243a24; }
+.nbtn:disabled { opacity: .3; cursor: default; }
+
+/* ── SECTIONS ── */
+.sec { display: none; padding: 48px 44px 100px; max-width: 1400px; margin: 0 auto; }
+.sec.on { display: block; }
+.secnum { color: #4b6a4b; font-size: .75rem; text-transform: uppercase; letter-spacing: .15em; margin-bottom: 6px; }
+.sec h2 { color: #4ade80; font-size: 2.1rem; font-weight: 700; margin-bottom: 10px; }
+.sec .desc { color: #6b7280; font-size: 1rem; max-width: 860px; margin-bottom: 40px; line-height: 1.7; }
+
+/* ── BOXES ── */
+.bx {
+  border-radius: 12px; padding: 18px 22px;
+  font-size: 1.05rem; font-weight: 500; line-height: 1.5;
+}
+.bx strong { display: block; font-size: 1.15rem; margin-bottom: 4px; }
+.bx small  { display: block; font-size: .9rem; opacity: .8; margin-top: 3px; }
+
+.g  { background: #14532d; color: #fff; border: 1px solid #166534; }
+.o  { background: #78350f; color: #fff; border: 1px solid #92400e; }
+.bl { background: #1e3a5f; color: #fff; border: 1px solid #2563eb; }
+.pu { background: #4c1d95; color: #fff; border: 1px solid #6d28d9; }
+.gd { background: #92400e; color: #fff; border: 2px solid #f59e0b; }
+.dk { background: #1c1917; color: #d1d5db; border: 1px solid #57534e; }
+.gr { background: #1a2e1a; color: #e0e0e0; border: 1px solid #2d4a2d; }
+.gg { background: #1b3a1b; color: #fff; border: 1px solid #2d4a2d; }
+
+/* ── LAYOUT ── */
+.row  { display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+.col  { display: flex; flex-direction: column; gap: 14px; }
+.ctr  { align-items: center; }
+.stretch { align-items: stretch; }
+
+/* ── ARROWS ── */
+.adn { text-align: center; font-size: 2rem; color: #4ade80; padding: 6px 0; line-height: 1; }
+.art { font-size: 2rem; color: #4ade80; padding: 0 6px; align-self: center; flex-shrink: 0; }
+.albl { font-size: .8rem; color: #4ade80; text-align: center; margin-top: -4px; margin-bottom: 4px; }
+
+/* ── BULLETS ── */
+ul.bl-list { list-style: none; margin-top: 10px; }
+ul.bl-list li { padding: 5px 0 5px 20px; position: relative; font-size: 1rem; }
+ul.bl-list li::before { content: "›"; position: absolute; left: 0; color: #4ade80; font-weight: bold; font-size: 1.1rem; }
+
+/* ── NUMBER STEPS ── */
+.steps { display: flex; flex-direction: column; gap: 0; }
+.step  { display: flex; align-items: flex-start; gap: 16px; }
+.step-n {
+  width: 36px; height: 36px; border-radius: 50%; background: #166534;
+  color: #fff; font-weight: 700; font-size: 1rem; display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+}
+.step-n.o { background: #92400e; }
+.step-body { flex: 1; padding-bottom: 24px; border-left: 2px solid #1f3a1f; margin-left: -1px; padding-left: 20px; }
+.steps .step:last-child .step-body { border-left: 2px solid transparent; }
+.step-title { font-weight: 600; font-size: 1.1rem; color: #d1fae5; }
+.step-sub   { font-size: .9rem; color: #9ca3af; margin-top: 3px; }
+
+/* ── TABLE ── */
+.tw { overflow-x: auto; border-radius: 12px; border: 1px solid #1f3a1f; }
+table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+th { background: #0f2a0f; color: #4ade80; padding: 15px 20px; text-align: left; font-weight: 600; }
+td { padding: 13px 20px; border-top: 1px solid #1f3a1f; color: #d1d5db; vertical-align: top; line-height: 1.5; }
+tr:nth-child(even) td { background: #0d1a0d; }
+code { color: #86efac; font-family: 'SF Mono', monospace; font-size: .9rem; }
+
+/* ── TAGS ── */
+.tag { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: .85rem; font-weight: 600; }
+.tg  { background: #14532d; color: #86efac; }
+.to  { background: #78350f; color: #fbbf24; }
+.tp  { background: #1e1b4b; color: #a5b4fc; }
+.tf  { background: #1c1917; color: #a8a29e; border: 1px solid #57534e; }
+
+/* ── STATE BOXES ── */
+.state-row { display: flex; gap: 0; align-items: center; flex-wrap: wrap; }
+.state-box {
+  flex: 1; min-width: 180px;
+  border-radius: 12px; padding: 22px; text-align: center;
+  font-size: 1rem; font-weight: 500; line-height: 1.5;
+}
+.state-arr { font-size: 2.5rem; color: #4ade80; padding: 0 12px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-title">Cheesecoins</span>
+  <span class="nav-div">|</span>
+  <div class="dw">
+    <select id="sel" onchange="go(this.value)">
+      <option value="0">1 — NFT Class Taxonomy</option>
+      <option value="1">2 — Money Inflows</option>
+      <option value="2">3 — What Comes Back to Holders</option>
+      <option value="3">4 — Protocol Revenue Model</option>
+      <option value="4">5 — Full Participant Journey</option>
+      <option value="5">6 — Commerce NFT Lifecycle</option>
+      <option value="6">7 — Commerce NFT Subtypes</option>
+      <option value="7">8 — US Treasuries and T-bill Reserve</option>
+      <option value="8">9 — What Is Live vs What Is Next</option>
+    </select>
+    <span class="darr">▼</span>
+  </div>
+  <span id="ctr">1 of 9</span>
+  <div class="nav-btns">
+    <button class="nbtn" id="bp" onclick="nav(-1)" disabled>← Prev</button>
+    <button class="nbtn" id="bn" onclick="nav(1)">Next →</button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 1 — NFT Class Taxonomy
+════════════════════════════════════════════════════════ -->
+<div class="sec on" id="s0">
+  <div class="secnum">Section 1</div>
+  <h2>NFT Class Taxonomy</h2>
+  <p class="desc">Every NFT on the protocol belongs to one class. Class determines what the holder receives, whether they earn yield, and whether they earn governance rights. Commerce NFT subtypes are detailed in Section 7.</p>
+
+  <div class="bx gg" style="text-align:center; font-size:1.3rem; font-weight:700; margin-bottom:16px;">
+    Cheesecoins Protocol NFTs
+  </div>
+  <div class="adn">↓</div>
+
+  <div class="row stretch" style="margin-top:8px;">
+
+    <div class="bx g" style="flex:1; min-width:180px;">
+      <strong>Scene NFT</strong>
+      Asset Class
+      <ul class="bl-list">
+        <li>100 scenes × 500 copies</li>
+        <li>80 CURD per NFT</li>
+        <li>Earns staking yield</li>
+        <li>Governance rights (Super Holder)</li>
+      </ul>
+    </div>
+
+    <div class="bx o" style="flex:1; min-width:180px;">
+      <strong>Commerce NFT</strong>
+      Forward Commitment
+      <ul class="bl-list">
+        <li>Food box, meal, service</li>
+        <li>Issued by approved partners</li>
+        <li>Redeemed for real goods</li>
+        <li>On-chain fulfillment record</li>
+      </ul>
+    </div>
+
+    <div class="bx bl" style="flex:1; min-width:180px;">
+      <strong>CapEx NFT</strong>
+      Capital Class
+      <ul class="bl-list">
+        <li>Equipment finance</li>
+        <li>Building / barn finance</li>
+        <li>Fixed term returns</li>
+        <li>2.5% protocol fee</li>
+      </ul>
+    </div>
+
+    <div class="bx pu" style="flex:1; min-width:180px;">
+      <strong>Input Cost NFT</strong>
+      Operating Class
+      <ul class="bl-list">
+        <li>Seasonal operating credit</li>
+        <li>Renewable each season</li>
+        <li>Supports farm cashflow</li>
+      </ul>
+    </div>
+
+    <div class="bx" style="flex:1; min-width:180px; background:#7f1d1d; color:#fff; border:1px solid #991b1b;">
+      <strong>Innovation NFT</strong>
+      Research Class
+      <ul class="bl-list">
+        <li>R&amp;D project funding</li>
+        <li>Fixed term</li>
+        <li>Milestone-based delivery</li>
+      </ul>
+    </div>
+
+    <div class="bx g" style="flex:1; min-width:180px;">
+      <strong>Land Deed NFT</strong>
+      Land Class
+      <ul class="bl-list">
+        <li>Fractional land rights</li>
+        <li>Sub-title on real parcel</li>
+        <li>Long-term yield</li>
+      </ul>
+    </div>
+
+    <div class="bx dk" style="flex:1; min-width:180px;">
+      <strong>Treasury Yield NFT</strong>
+      RWA Bond Class
+      <ul class="bl-list">
+        <li>Backed by tokenized T-bills</li>
+        <li>~4.5% APY pass-through</li>
+        <li>Quarterly CURD or USDC</li>
+        <li>No farm exposure needed</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 2 — Money Inflows
+════════════════════════════════════════════════════════ -->
+<div class="sec" id="s1">
+  <div class="secnum">Section 2</div>
+  <h2>Money Inflows</h2>
+  <p class="desc">How value enters the protocol — from buyers, partners, and producers. CURD is the internal currency. USDC gets people in; CURD is what moves inside the ecosystem.</p>
+
+  <!-- Row 1: Buyer -->
+  <div class="row ctr" style="margin-bottom:16px;">
+    <div class="bx bl" style="min-width:180px; text-align:center;"><strong>Buyer</strong></div>
+    <div class="art">→</div>
+    <div class="col" style="flex:1; gap:10px;">
+      <div class="bx g">
+        <strong>CurdDirectSale</strong>
+        <small>Buyer pays USDC, receives CURD — 10M CURD loaded on mainnet</small>
+      </div>
+      <div class="bx g">
+        <strong>CsaCertificateSale</strong>
+        <small>Buys Scene NFT — 80 CURD per scene, all 100 scenes enabled</small>
+      </div>
+      <div class="bx o">
+        <strong>ProjectSale</strong>
+        <small>Buys Commerce NFT — food box, meal, service, etc.</small>
+      </div>
+      <div class="bx bl">
+        <strong>StakingManager</strong>
+        <small>Stakes CURD or NFT to earn yield from BootstrapYieldPool</small>
+      </div>
+    </div>
+    <div class="art">→</div>
+    <div class="bx gd" style="min-width:180px; text-align:center; align-self:center;">
+      <strong>Treasury</strong>
+      <small>Gnosis Safe 2-of-2</small>
+    </div>
+  </div>
+
+  <hr style="border-color:#1f3a1f; margin:24px 0;">
+
+  <!-- Row 2: Partner -->
+  <div class="row ctr" style="margin-bottom:16px;">
+    <div class="bx bl" style="min-width:180px; text-align:center;"><strong>Partner</strong><small>Farm / Restaurant / Retailer</small></div>
+    <div class="art">→</div>
+    <div class="col" style="flex:1; gap:10px;">
+      <div class="bx o">
+        <strong>ProjectSale</strong>
+        <small>Submits Commerce NFT project — one wallet signature</small>
+        <small style="margin-top:6px; color:#fbbf24;">5% fee to Treasury · 95% direct to issuer wallet</small>
+      </div>
+      <div class="bx dk">
+        <strong>MerchantRegistry + MerchantSettlement</strong>
+        <small>Registers to accept CURD — no fee on CURD payments, pure pass-through</small>
+      </div>
+    </div>
+  </div>
+
+  <hr style="border-color:#1f3a1f; margin:24px 0;">
+
+  <!-- Row 3: Producer -->
+  <div class="row ctr">
+    <div class="bx bl" style="min-width:180px; text-align:center;"><strong>Producer</strong><small>Applying to list a project</small></div>
+    <div class="art">→</div>
+    <div class="bx gr" style="flex:1;">
+      <strong>Farm Tools (future)</strong>
+      <small>Fills business plan — box contents, pricing, delivery terms</small>
+    </div>
+    <div class="art">→</div>
+    <div class="bx o" style="flex:1;">
+      <strong>ProjectSale</strong>
+      <small>Application reviewed and approved by Greg via Ledger</small>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 3 — What Comes Back to Holders
+════════════════════════════════════════════════════════ -->
+<div class="sec" id="s2">
+  <div class="secnum">Section 3</div>
+  <h2>What Comes Back to Holders</h2>
+  <p class="desc">Every NFT class has a different return profile. Governance rights are exclusive to Super Holders — those who collect all 100 Nubians North scenes.</p>
+
+  <div class="row stretch">
+
+    <div class="bx g" style="flex:1; min-width:220px;">
+      <strong>Scene NFT Holder</strong>
+      <ul class="bl-list">
+        <li>First access to milk plant products</li>
+        <li>Partner promo codes — 40 CURD off Commerce NFTs</li>
+        <li>Staking yield in CURD</li>
+        <li>Verified community member status</li>
+      </ul>
+    </div>
+
+    <div class="bx o" style="flex:1; min-width:220px;">
+      <strong>Commerce NFT Holder</strong>
+      <ul class="bl-list">
+        <li>Physical delivery — food box / meal / service</li>
+        <li>On-chain fulfillment record — permanent audit trail</li>
+        <li>Redemption at partner — show NFT wallet</li>
+        <li>CURD handles CAD/USD conversion automatically</li>
+      </ul>
+    </div>
+
+    <div class="bx bl" style="flex:1; min-width:220px;">
+      <strong>CURD or NFT Staker</strong>
+      <ul class="bl-list">
+        <li>CURD yield from BootstrapYieldPool</li>
+        <li>Governance voting weight (proportional to stake age)</li>
+        <li>24-week minimum stake age to propose</li>
+      </ul>
+    </div>
+
+    <div class="bx pu" style="flex:1; min-width:220px;">
+      <strong>Super Holder</strong>
+      <small style="color:#c4b5fd;">Requires all 100 Nubians North scenes</small>
+      <ul class="bl-list">
+        <li>Propose protocol changes</li>
+        <li>Vote on governance proposals</li>
+        <li>Execute via Timelock — 2-day delay on mainnet</li>
+        <li>Influence treasury allocation</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 4 — Protocol Revenue Model
+════════════════════════════════════════════════════════ -->
+<div class="sec" id="s3">
+  <div class="secnum">Section 4</div>
+  <h2>Protocol Revenue Model</h2>
+  <p class="desc">How the Cheesecoins protocol sustains itself and funds growth. Every transaction generates a fee that flows to the Treasury for deployment back into the ecosystem.</p>
+
+  <div class="row stretch">
+
+    <!-- Sources -->
+    <div class="col" style="flex:1; min-width:240px;">
+      <div class="bx gg" style="text-align:center;"><strong>Revenue Sources</strong></div>
+      <div class="bx g">
+        <strong>Scene NFT Sales</strong>
+        <small>Protocol fee on every scene sold via CsaCertificateSale</small>
+      </div>
+      <div class="bx o">
+        <strong>Commerce NFT Sales</strong>
+        <small>5% protocol fee to Treasury · 95% direct to issuer wallet</small>
+      </div>
+      <div class="bx bl">
+        <strong>CapEx NFT Sales</strong>
+        <small>2.5% protocol fee to Treasury</small>
+      </div>
+      <div class="bx g">
+        <strong>CurdDirectSale</strong>
+        <small>Spread on CURD purchases — USDC in, CURD out</small>
+      </div>
+      <div class="bx dk">
+        <strong>FiatRedemptionVault</strong>
+        <small>2% redemption fee on CURD → USDC conversion — Phase B, needs Uniswap pool first</small>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="col ctr" style="justify-content:center;">
+      <div class="art" style="font-size:3rem;">→</div>
+    </div>
+
+    <!-- Treasury -->
+    <div class="col ctr" style="justify-content:center;">
+      <div class="bx gd" style="text-align:center; padding:28px 32px;">
+        <strong style="font-size:1.3rem;">Treasury</strong>
+        <small>Gnosis Safe 2-of-2</small>
+        <small>Ledger + MetaMask</small>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div class="col ctr" style="justify-content:center;">
+      <div class="art" style="font-size:3rem;">→</div>
+    </div>
+
+    <!-- Uses -->
+    <div class="col" style="flex:1; min-width:240px;">
+      <div class="bx gg" style="text-align:center;"><strong>Treasury Uses</strong></div>
+      <div class="bx g">
+        <strong>Milk Processing Plant</strong>
+        <small>Fund the physical facility — core use of early revenue</small>
+      </div>
+      <div class="bx bl">
+        <strong>Uniswap CURD/USDC Pool</strong>
+        <small>Seed liquidity — enables trading and redemption</small>
+      </div>
+      <div class="bx o">
+        <strong>Marketing and Community</strong>
+        <small>Grow the protocol — farmers, buyers, partners</small>
+      </div>
+      <div class="bx gr">
+        <strong>Protocol Operations</strong>
+        <small>Infrastructure, development, audits</small>
+      </div>
+      <div class="bx g">
+        <strong>BootstrapYieldPool Top-ups</strong>
+        <small>Fund staking rewards so holders earn yield</small>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 5 — Full Participant Journey
+════════════════════════════════════════════════════════ -->
+<div class="sec" id="s4">
+  <div class="secnum">Section 5</div>
+  <h2>Full Participant Journey</h2>
+  <p class="desc">End-to-end paths for a buyer and a producer. The protocol collects a fee on every sale and routes it to Treasury.</p>
+
+  <div class="row stretch" style="gap:32px;">
+
+    <!-- Buyer -->
+    <div style="flex:1; min-width:280px;">
+      <div class="bx bl" style="text-align:center; margin-bottom:24px;"><strong>Buyer Journey</strong></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">1</div>
+          <div class="step-body">
+            <div class="step-title">Discovers Cheesecoins</div>
+            <div class="step-sub">Social, marketplace, referral</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">2</div>
+          <div class="step-body">
+            <div class="step-title">Creates free wallet</div>
+            <div class="step-sub">Thirdweb — email, Google, Apple, or MetaMask</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">3</div>
+          <div class="step-body">
+            <div class="step-title">Gets CURD</div>
+            <div class="step-sub">Buys via Transak with card, or sends USDC direct</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">4</div>
+          <div class="step-body">
+            <div class="step-title">Buys Scene NFT — 80 CURD</div>
+            <div class="step-sub">One of 100 unique Nubians North farm scenes</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">5</div>
+          <div class="step-body">
+            <div class="step-title">Receives partner promo code</div>
+            <div class="step-sub">40 CURD off a Commerce NFT</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">6</div>
+          <div class="step-body">
+            <div class="step-title">Buys Commerce NFT at discount</div>
+            <div class="step-sub">Food box, meal, service — paid in CURD</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">7</div>
+          <div class="step-body">
+            <div class="step-title">Receives delivery</div>
+            <div class="step-sub">Fulfillment confirmed on-chain by issuer</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">8</div>
+          <div class="step-body">
+            <div class="step-title">Stakes NFT and CURD</div>
+            <div class="step-sub">Earns yield over time via BootstrapYieldPool</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n">9</div>
+          <div class="step-body">
+            <div class="step-title">Collects all 100 scenes</div>
+            <div class="step-sub">Becomes Super Holder — full governance rights</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Producer -->
+    <div style="flex:1; min-width:280px;">
+      <div class="bx o" style="text-align:center; margin-bottom:24px;"><strong>Producer Journey</strong></div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n o">1</div>
+          <div class="step-body">
+            <div class="step-title">Discovers Cheesecoins</div>
+            <div class="step-sub">Greg, community, marketplace</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n o">2</div>
+          <div class="step-body">
+            <div class="step-title">Fills application form</div>
+            <div class="step-sub">Box contents, pricing, delivery date, wallet address</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n o">3</div>
+          <div class="step-body">
+            <div class="step-title">Submits NFT project</div>
+            <div class="step-sub">One wallet signature — no crypto knowledge required</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n o">4</div>
+          <div class="step-body">
+            <div class="step-title">Greg reviews and approves</div>
+            <div class="step-sub">One Ledger click — activates sale on-chain via ProjectSale</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n o">5</div>
+          <div class="step-body">
+            <div class="step-title">Commerce NFT goes live</div>
+            <div class="step-sub">Listed on marketplace — buyers pay in CURD</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n o">6</div>
+          <div class="step-body">
+            <div class="step-title">Accepts CURD payments</div>
+            <div class="step-sub">95% of sale price goes direct to issuer wallet</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-n o">7</div>
+          <div class="step-body">
+            <div class="step-title">Marks deliveries fulfilled</div>
+            <div class="step-sub">Calls markFulfilled on-chain — permanent delivery record</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Protocol -->
+    <div style="flex:0 0 220px; min-width:200px;">
+      <div class="bx gd" style="text-align:center; margin-bottom:24px;"><strong>Protocol</strong></div>
+      <div class="col">
+        <div class="bx gr">
+          <strong>Collects 5% fee</strong>
+          <small>On every Commerce NFT sale</small>
+        </div>
+        <div class="adn">↓</div>
+        <div class="bx gd">
+          <strong>Routes to Treasury</strong>
+          <small>Gnosis Safe — secure</small>
+        </div>
+        <div class="adn">↓</div>
+        <div class="bx g">
+          <strong>Funds ecosystem</strong>
+          <small>Plant, yield pool, liquidity, marketing</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 6 — Commerce NFT Lifecycle
+════════════════════════════════════════════════════════ -->
+<div class="sec" id="s5">
+  <div class="secnum">Section 6</div>
+  <h2>Commerce NFT Lifecycle</h2>
+  <p class="desc">A Commerce NFT is a forward commitment. The issuer promises to deliver. The holder carries the on-chain receipt. Every state transition is permanent — there is no reversing a fulfillment record.</p>
+
+  <!-- Entry -->
+  <div style="text-align:center; margin-bottom:8px;">
+    <div class="bx bl" style="display:inline-block; min-width:320px;">
+      <strong>Buyer purchases NFT</strong>
+      <small>Payment collected in CURD · NFT minted · sale recorded on-chain</small>
+    </div>
+  </div>
+  <div class="adn">↓</div>
+
+  <!-- Pending state -->
+  <div style="text-align:center; margin-bottom:8px;">
+    <div class="bx gg" style="display:inline-block; min-width:320px; border:2px solid #4ade80;">
+      <strong style="font-size:1.2rem;">PENDING</strong>
+      <small>NFT held by buyer · delivery expected by maturityDate</small>
+    </div>
+  </div>
+
+  <div class="adn">↓  three possible outcomes  ↓</div>
+
+  <!-- Three outcomes -->
+  <div class="row ctr stretch" style="margin-top:8px; gap:24px;">
+
+    <div class="bx g" style="flex:1; min-width:220px; text-align:center;">
+      <strong style="font-size:1.2rem;">FULFILLED</strong>
+      <small style="display:block; margin-top:8px;">Issuer calls <code>markFulfilled(tokenId)</code></small>
+      <small style="display:block; margin-top:6px;">Delivery confirmed on-chain · permanent record · NFT retains fulfilled status forever</small>
+    </div>
+
+    <div class="bx o" style="flex:1; min-width:220px; text-align:center;">
+      <strong style="font-size:1.2rem;">CANCELLED</strong>
+      <small style="display:block; margin-top:8px;">Issuer calls <code>markCancelled(tokenId)</code></small>
+      <small style="display:block; margin-top:6px;">Cancellation recorded on-chain · refund reference stored · issuer responsible for refund off-chain</small>
+    </div>
+
+    <div class="bx dk" style="flex:1; min-width:220px; text-align:center;">
+      <strong style="font-size:1.2rem;">EXPIRED</strong>
+      <small style="display:block; margin-top:8px;"><code>maturityDate</code> passes without delivery</small>
+      <small style="display:block; margin-top:6px;">Parties resolve off-chain or via governance dispute · on-chain record shows expired state</small>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 7 — Commerce NFT Subtypes
+════════════════════════════════════════════════════════ -->
+<div class="sec" id="s6">
+  <div class="secnum">Section 7</div>
+  <h2>Commerce NFT Subtypes</h2>
+  <p class="desc">Any approved partner can issue a Commerce NFT. Same contract, same purchase flow — different delivery mechanism. CURD handles the CAD/USD conversion so buyers and sellers never touch currency exchange.</p>
+  <div class="tw">
+    <table>
+      <thead>
+        <tr>
+          <th>Subtype</th>
+          <th>Example</th>
+          <th>Issuer</th>
+          <th>How Holder Redeems</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>csa_food_box</code></td><td>Nubians North Meat &amp; Cheese Box</td><td>Greg / Nubians North</td><td>Box shipped or picked up</td></tr>
+        <tr><td><code>restaurant_meal</code></td><td>Dinner for two at partner restaurant</td><td>Restaurant partner</td><td>Show NFT wallet at door</td></tr>
+        <tr><td><code>gift_certificate</code></td><td>100 CURD of farm products</td><td>Any farm partner</td><td>In-store or shipped</td></tr>
+        <tr><td><code>priority_purchase</code></td><td>First 10 spring cheeses at locked price</td><td>Fromagerie</td><td>Delivery or pickup</td></tr>
+        <tr><td><code>bulk_agreement</code></td><td>50 bales hay at 8 CURD/bale</td><td>Feed farm</td><td>Scheduled delivery</td></tr>
+        <tr><td><code>service_commitment</code></td><td>20 hours vet at 90 CURD/hr</td><td>Vet practice</td><td>Booked appointments</td></tr>
+        <tr><td><code>processing_agreement</code></td><td>Process 50 pigs at 250 CURD each</td><td>Abattoir</td><td>Scheduled processing slot</td></tr>
+        <tr><td><code>delivery_contract</code></td><td>Weekly 10L milk to restaurant</td><td>Dairy farm</td><td>Weekly route</td></tr>
+        <tr><td><code>loyalty_discount</code></td><td>15% off all purchases for 1 year</td><td>Retailer</td><td>Applied at checkout</td></tr>
+        <tr><td><code>line_of_credit</code></td><td>5,000 CURD input cost advance</td><td>Protocol / investor</td><td>Funds released to farmer</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 8 — US Treasuries and T-bill Reserve
+════════════════════════════════════════════════════════ -->
+<div class="sec" id="s7">
+  <div class="secnum">Section 8</div>
+  <h2>US Treasuries and T-bill Reserve</h2>
+  <p class="desc">The protocol holds tokenized US Treasuries as a reserve asset. This yield supplements staking rewards and backs a standalone Treasury Yield NFT for conservative investors who want yield without farm exposure.</p>
+
+  <div class="row stretch" style="gap:24px; margin-bottom:32px;">
+
+    <div class="bx dk" style="flex:1; min-width:240px;">
+      <strong>Protocol Reserve Layer</strong>
+      <ul class="bl-list">
+        <li>USDC from NFT sales and CURD purchases flows to Treasury</li>
+        <li>Protocol allocates a portion to tokenized T-bills</li>
+        <li>Example providers: Ondo USDY, Superstate USTB on Arbitrum One</li>
+        <li>~4.5% APY pass-through to the protocol</li>
+      </ul>
+    </div>
+
+    <div class="col ctr" style="justify-content:center;">
+      <div class="art" style="font-size:3rem;">→</div>
+    </div>
+
+    <div class="bx g" style="flex:1; min-width:240px;">
+      <strong>Yield Distribution</strong>
+      <ul class="bl-list">
+        <li>T-bill yield accrues quarterly</li>
+        <li>Flows into BootstrapYieldPool</li>
+        <li>Distributed to staked CURD holders</li>
+        <li>Distributed to Scene NFT stakers as supplement</li>
+        <li>Paid to Treasury Yield NFT holders as fixed quarterly payout</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="row stretch" style="gap:24px;">
+
+    <div class="bx dk" style="flex:1; min-width:240px;">
+      <strong>Treasury Yield NFT</strong>
+      <small style="color:#d1d5db; margin-bottom:10px; display:block;">Future product — not yet deployed</small>
+      <ul class="bl-list">
+        <li>Buyer purchases NFT for a fixed USDC amount (e.g. 500 USDC)</li>
+        <li>Protocol allocates to T-bill reserve position</li>
+        <li>Holder receives ~4.5% APY quarterly in USDC or CURD</li>
+        <li>Redeemable at maturity or tradeable on secondary market</li>
+      </ul>
+    </div>
+
+    <div class="bx bl" style="flex:1; min-width:240px;">
+      <strong>CURD Token Backing</strong>
+      <ul class="bl-list">
+        <li>Agricultural real-world assets — farm NFTs, CSA revenue, land</li>
+        <li>US Treasury reserve — tokenized T-bills on-chain</li>
+        <li>Uniswap liquidity pool — CURD/USDC (Phase B, needs pool first)</li>
+      </ul>
+      <div style="margin-top:14px; padding:12px; background:#0f2a5f; border-radius:8px; font-size:.95rem;">
+        CURD is utility-pegged — real goods are priced in CURD, so the price is held by real demand for real food. Not an algorithm. Not a bank. Banks hate this.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 9 — What Is Live vs What Is Next
+════════════════════════════════════════════════════════ -->
+<div class="sec" id="s8">
+  <div class="secnum">Section 9</div>
+  <h2>What Is Live vs What Is Next</h2>
+  <p class="desc">Deployment state as of April 23 2026. Three flows work end-to-end: buying CURD, buying a Scene NFT, and staking for yield. Commerce NFT infrastructure is live — first project registration is the next step.</p>
+
+  <div class="row stretch" style="gap:20px;">
+
+    <!-- Live -->
+    <div style="flex:1; min-width:220px;">
+      <div class="bx g" style="text-align:center; margin-bottom:14px;"><strong>LIVE on Mainnet</strong><small>Arbitrum One</small></div>
+      <div class="col">
+        <div class="bx g">CURD Token <span class="tag tg">live</span></div>
+        <div class="bx g">CurdDirectSale <span class="tag tg">live</span><small>10M CURD loaded</small></div>
+        <div class="bx g">NubiansNorthNFT <span class="tag tg">live</span><small>100 scenes minted</small></div>
+        <div class="bx g">CsaCertificateSale <span class="tag tg">live</span><small>All 100 scenes enabled</small></div>
+        <div class="bx g">StakingManager <span class="tag tg">live</span><small>5M CURD funded in BootstrapYieldPool ✅</small></div>
+        <div class="bx g">ProjectSale <span class="tag tg">live</span><small>No project registered yet — architecture ready</small></div>
+        <div class="bx g">CommerceNFTTemplate impl <span class="tag tg">live</span><small>Deployed April 2026 — awaiting first project</small></div>
+        <div class="bx g">ProjectRegistry <span class="tag tg">live</span></div>
+        <div class="bx g">SuperHolderGovernance <span class="tag tg">live</span></div>
+        <div class="bx dk">B3 stack <span class="tag tf">deployed, not configured</span><small>BurnAuthority, FiatRedemptionVault, MerchantRegistry, MerchantSettlement, TreasuryRateAdvisor</small></div>
+      </div>
+    </div>
+
+    <!-- Immediate -->
+    <div style="flex:1; min-width:220px;">
+      <div class="bx o" style="text-align:center; margin-bottom:14px;"><strong>Immediate Priority</strong><small>Do this now</small></div>
+      <div class="col">
+        <div class="bx o">
+          <strong>Register Meat and Cheese Box</strong>
+          <small>First Commerce NFT project — register in ProjectSale via Gnosis Safe</small>
+        </div>
+        <div class="bx o">
+          <strong>Wire admin approve button</strong>
+          <small>Currently a stub — needs to call activateSale on-chain via Ledger</small>
+        </div>
+        <div class="bx o">
+          <strong>B3 post-deploy config</strong>
+          <small>Set rate steps, daily cap, fund FiatRedemptionVault, register first merchant — all via Safe</small>
+        </div>
+        <div class="bx o">
+          <strong>MerchantRegistryV2 upgrade</strong>
+          <small>Adds founder EOA operator so Safe isn't needed for every merchant add</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase B -->
+    <div style="flex:1; min-width:220px;">
+      <div class="bx" style="background:#1e1b4b; border:1px solid #4338ca; text-align:center; margin-bottom:14px;"><strong>Phase B</strong><small>Needs Uniswap pool first</small></div>
+      <div class="col">
+        <div class="bx" style="background:#1e1b4b; border:1px solid #4338ca; color:#fff;">
+          <strong>Uniswap CURD/USDC Pool</strong>
+          <small>Seed liquidity — unlocks everything below</small>
+        </div>
+        <div class="bx" style="background:#1e1b4b; border:1px solid #4338ca; color:#fff;">
+          <strong>FiatRedemptionVault — activate</strong>
+          <small>Deployed, fee=0, cap=0, not funded — blocked until pool exists</small>
+        </div>
+        <div class="bx" style="background:#1e1b4b; border:1px solid #4338ca; color:#fff;">HedgeModule</div>
+        <div class="bx" style="background:#1e1b4b; border:1px solid #4338ca; color:#fff;">StabilityCoordinator</div>
+        <div class="bx" style="background:#1e1b4b; border:1px solid #4338ca; color:#fff;">MaturityOracle <small>(last — immutable addresses)</small></div>
+      </div>
+    </div>
+
+    <!-- Future -->
+    <div style="flex:1; min-width:220px;">
+      <div class="bx dk" style="text-align:center; margin-bottom:14px;"><strong>Future</strong></div>
+      <div class="col">
+        <div class="bx dk">
+          <strong>Treasury Yield NFT</strong>
+          <small>Ondo / Superstate T-bill reserve product</small>
+        </div>
+        <div class="bx dk">
+          <strong>Farm Tools</strong>
+          <small>Producer onboarding platform</small>
+        </div>
+        <div class="bx dk">
+          <strong>CapEx NFT class</strong>
+          <small>Equipment and building finance</small>
+        </div>
+        <div class="bx dk">
+          <strong>Land Deed NFT class</strong>
+          <small>Fractional land rights on real parcels</small>
+        </div>
+        <div class="bx dk">
+          <strong>Governance Stage 1</strong>
+          <small>Shared founder + DAO control — requires MaturityOracle</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let cur = 0;
+  const N = 9;
+
+  function go(i) {
+    i = parseInt(i);
+    document.querySelectorAll('.sec').forEach(s => s.classList.remove('on'));
+    document.getElementById('s' + i).classList.add('on');
+    document.getElementById('sel').value = i;
+    document.getElementById('ctr').textContent = (i + 1) + ' of ' + N;
+    document.getElementById('bp').disabled = i === 0;
+    document.getElementById('bn').disabled = i === N - 1;
+    cur = i;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function nav(d) {
+    const n = cur + d;
+    if (n >= 0 && n < N) go(n);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') nav(1);
+    if (e.key === 'ArrowLeft')  nav(-1);
+  });
+</script>
+</body>
+</html>

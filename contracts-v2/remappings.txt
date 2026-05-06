@@ -1,0 +1,8 @@
+@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/
+@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
+@chainlink/contracts/=lib/chainlink/contracts/
+forge-std/=lib/forge-std/src/
+erc721a-upgradeable/=lib/ERC721A-Upgradeable/
+ERC721A/=lib/ERC721A/contracts/
+v3-periphery/=lib/v3-periphery/contracts/
+v3-core/=lib/v3-core/contracts/
