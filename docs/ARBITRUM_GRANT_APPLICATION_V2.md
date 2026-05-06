@@ -6,7 +6,7 @@
 **Network:** Arbitrum One (live since March 25, 2026)\
 **Total ask:** $150,000 USD — Advanced Growth track, milestone-metered\
 **Applicant:** Gregory Garner — solo founder, Nubians North farm (Ontario, Canada)\
-**Repository:** https://github.com/garnergregg/MCP-Cheesecoins-Eco-sys\
+**Repository:** https://github.com/garnergregg/cheesecoins-protocol\
 **Web:** cheesecoins.com · nubiansnorth.com
 
 > *Cheesecoins is the first agricultural supply-chain settlement protocol on Arbitrum — every link in the chain (vendor, producer, processor, distributor, merchant) is on-chain, paid in CURD, and reconcilable in real time. Live on mainnet. Working dairy goat farm at the center.*
@@ -299,10 +299,10 @@ Father, Husband and now Grandfather, Greg has a vested interest in effecting cha
 - FounderDecentralization (governance schedule): https://arbiscan.io/address/0xC2378eC98B8Aedf8E748b86775739F25F2CCE86a
 
 **Repository:**
-- Source code: https://github.com/garnergregg/MCP-Cheesecoins-Eco-sys
-- Mainnet manifest: https://github.com/garnergregg/MCP-Cheesecoins-Eco-sys/blob/main/contracts-v2/deployments/42161-arbitrum-one-all.json
-- Tokenomics V2 spec: https://github.com/garnergregg/MCP-Cheesecoins-Eco-sys/blob/main/docs/TOKENOMICS_V2.md
-- Financial projections workbook: https://github.com/garnergregg/MCP-Cheesecoins-Eco-sys/blob/main/docs/CHEESECOINS_FINANCIAL_PROJECTIONS.xlsx
+- Source code: https://github.com/garnergregg/cheesecoins-protocol
+- Mainnet manifest: https://github.com/garnergregg/cheesecoins-protocol/blob/main/contracts-v2/deployments/42161-arbitrum-one-all.json
+- Tokenomics V2 spec: https://github.com/garnergregg/cheesecoins-protocol/blob/main/docs/TOKENOMICS_V2.md
+- Financial projections workbook: https://github.com/garnergregg/cheesecoins-protocol/blob/main/docs/CHEESECOINS_FINANCIAL_PROJECTIONS.xlsx
 
 **Public:**
 - Live front-end: https://cheesecoins.com
