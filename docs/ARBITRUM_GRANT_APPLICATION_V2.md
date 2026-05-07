@@ -178,44 +178,25 @@ Specific Arbitrum-native dependencies:
 
 Grant disbursement is tied to verifiable on-chain milestones. Every trigger reads from public Arbitrum One state — reviewers can independently verify via `cast logs` or Arbiscan. **Greg has begun partner onboarding in May 2026 independent of this grant** (the protocol is live; partners can register today). The grant accelerates and extends what's already in flight.
 
-Milestones are listed in chronological order. M-numbers are stable identifiers, not strictly sequential, so disbursement and repayment references stay coherent across documents.
+**All disbursements occur post-M0 (grant signing).** Where a milestone trigger is already verifiable on-chain at the time of M0 — for example M1, where 5 partners may already be onboarded by Jul 2026 — that tranche disburses at M0 signing on trigger verification. Pre-grant work counts; pre-grant cash does not flow.
 
 | # | Target | Milestone | Trigger (on-chain verifiable) | Disbursement |
 |---|---|---|---|---|
-| **M1** | Jun 2026 | 5 partners across 2+ tiers | 5 `setMerchantWithTier` events on `MerchantRegistry` (likely already onboarded by M0; fires immediately on grant signing) | $25,000 |
 | **M0** | Jul 2026 | **Grant accepted, promo campaign launches** | Grant agreement signed; promo spend begins | $55,000 |
+| **M1** | Jul 2026 (state achieved Jun 2026) | 5 partners across 2+ tiers | 5 `setMerchantWithTier` events on `MerchantRegistry` (verified at M0 signing if already on-chain) | $25,000 |
 | **M2** | Jul 2026 | CME data agreement signed; integration test live on Sepolia | Signed agreement evidence + on-chain price update events on `CommodityPriceOracle` | $13,000 |
 | **M3** | Aug 2026 | 15 partners across 3+ tiers, CURD/USDC pool live | 15 `MerchantStatusChanged` events + Uniswap V3 0.05% stablecoin pool deploy tx | $35,000 |
-| **M4** | Aug 2026 | First Commerce NFT project fully sold out | All scenes in a partner Commerce NFT project hit `SCENE_MAX_SUPPLY` cap | *Repayment trigger — see §8* |
+| **M4** | Aug 2026 | First Commerce NFT project fully sold out *(tracked, informational)* | All scenes in a partner Commerce NFT project hit `SCENE_MAX_SUPPLY` cap | *No disbursement; positive demand signal* |
 | **M5** | Aug 2026 | FxPeggedRedemption audited and deployed to mainnet | Audit report published + module configured on `FiatRedemptionVault` proxy | $17,000 |
 | **M6** | Dec 2026 | 30 partners across all 5 tiers | 30 `MerchantStatusChanged` events covering all 5 `Tier` enum values | $5,000 |
-| **M7** | Mar 2027 | Nubians North NFT 50% sellout | `mintedPerScene` cumulative ≥ 50% of `TOTAL_MAX_SUPPLY` (25,000 of 50,000) | *Repayment trigger — see §8* |
+| **M7** | Mar 2027 | Nubians North NFT 50% sellout *(tracked, informational)* | `mintedPerScene` cumulative ≥ 50% of `TOTAL_MAX_SUPPLY` (25,000 of 50,000) | *No disbursement; capacity signal — see §8* |
 | | | | **Total disbursed** | **$150,000** |
 
 The full per-milestone disbursement breakdown by bucket (promo, liquidity, founder development, operations, contractor, audit, CME) lives in [`docs/GRANT_DISBURSEMENT_SCHEDULE.xlsx`](https://github.com/garnergregg/cheesecoins-protocol/blob/main/docs/GRANT_DISBURSEMENT_SCHEDULE.xlsx) — editable workbook with milestone dates, disbursement schedule, and repayment-trigger logic.
 
-**Per-tier breakdown for M6** (30 partners across all 5 tiers):
+**M6 partner distribution and soft-cost economics.** The 30-partner target across all five tiers breaks down as 12 merchants / 7 vendors / 5 producers / 3 distributors / 3 processors — reflecting the realistic Ontario small-ag ecosystem composition. Per-tier rationale, soft-cost components, and the breakdown of how the $80,000 promotion bucket is spent (paid acquisition vs direct onboarding cost) are documented in [`docs/PROTOCOL_THESIS.md`](https://github.com/garnergregg/cheesecoins-protocol/blob/main/docs/PROTOCOL_THESIS.md).
 
-| Tier | Target count | Rationale |
-|---|---|---|
-| Merchants (retailers, restaurants, market stalls) | 12 | Largest tier by population — most fertile recruiting ground; conversion is fastest |
-| Vendors (feed, equipment, input suppliers) | 7 | Existing relationships from Greg's farm operations make first-cohort recruiting straightforward |
-| Producers (farms — direct peers of Nubians North) | 5 | Higher per-partner value but lower-count; recruited via direct relationship |
-| Distributors (wholesalers) | 3 | Smaller universe, longer sales cycle; floor of 3 demonstrates the supply-chain story |
-| Processors (cheese plants, abattoirs) | 3 | Same — higher complexity, smaller universe |
-| **Total** | **30** | All 5 tiers represented; tier diversity verifiable from `MerchantTierSet` event data |
-
-The breakdown reflects the realistic Ontario small-ag ecosystem composition: many retailers and input vendors, fewer specialized processors and distributors. Reviewers can verify tier coverage at any time by reading `MerchantTierSet(address indexed merchant, Tier indexed tier)` events on the registry contract.
-
-**Soft cost per merchant: ~$100 average.** Components per partner:
-
-- Gas subsidy: $5 (Arbitrum is cheap)
-- Printed onboarding materials in English + French: $10
-- 30-minute video onboarding call (founder time, attributed at modest hourly): $40
-- Travel + booth time at regional farmers' markets / events: $40 (averaged across in-person and remote partners)
-- Misc + buffer: $5
-
-Total soft cost across 30 partners ≈ $3,000 — small fraction (~3.75%) of the $80,000 promotion budget. The bulk of the promotion bucket funds paid acquisition programs (boost campaigns, partner incentive payments at gates), not direct soft cost.
+**Expected commerce flow.** With 30 onboarded partners settling commerce in CURD across the 5-tier supply chain, the protocol expects to drive **$200,000 to $1,500,000+ in CURD-denominated commerce volume** (sum of `MerchantSettlement` event amounts on `MerchantRegistry V3`) within the first 12 months — an order of magnitude larger than the grant ask, all on-chain and verifiable. Modeled scenarios across Y1–Y3 in [`docs/CHEESECOINS_FINANCIAL_PROJECTIONS.xlsx`](https://github.com/garnergregg/cheesecoins-protocol/blob/main/docs/CHEESECOINS_FINANCIAL_PROJECTIONS.xlsx).
 
 All triggers are verifiable on-chain or in published artifacts — no subjective milestones.
 
@@ -253,21 +234,26 @@ Cheesecoins is not asking for perpetual subsidy. The grant is the **runway** for
 2. Subscription fees from consumer protocols using the Cheesecoins Agricultural Settlement Index
 3. FX hedge premium spread (post FxPeggedRedemption mainnet deploy)
 
-**Revenue share back to Arbitrum DAO — dual-trigger.**
+**Revenue share back to Arbitrum DAO — capacity-gated.**
 
-Repayment to the Arbitrum DAO treasury begins on the **earlier** of three signals:
+Repayment commences only when the protocol demonstrates **sufficient financial capacity to repay without compromising operating runway**. Specifically: the repayment clock starts on the **earlier** of:
 
-1. **M4 — first Commerce NFT project fully sold out.** The protocol's 5% commerce fee on subsequent NFT proceeds routes to a repayment escrow until the cap is hit. Earliest-possible signal: a partner project sold out demonstrates real demand and commerce flow.
-2. **M7 — Nubians North NFT project 50% sellout** (25,000 of 50,000 NFTs minted). Larger signal: the flagship collection at the half-mark indicates durable secondary demand. The protocol's 5% commerce fee on Nubians North primary sales routes to repayment from this point.
-3. **Subscription rev-share** — 5% of subscription revenue from Settlement Index consumers accruing to the DAO treasury once Settlement Index integration is live (M2 forward).
+1. **Nubians North NFT cumulative primary-sale proceeds ≥ $225,000** (= 1.5× the grant cap). Verifiable from `NubiansNorthNFT.totalSupply()` * primary mint price on Arbiscan. Translates to roughly 6% of the 50,000-supply collection sold out — meaningful demand, but well short of the M7 50% half-mark milestone.
+2. **Cumulative CURD-denominated commerce volume ≥ $1,000,000 USD-equivalent.** Verifiable as the sum of `MerchantSettlement` event amounts on `MerchantRegistry V3`. Demonstrates the protocol's commerce flow is at a level where 5% routing to repayment is sustainable.
+3. **Settlement Index subscription revenue is live and accruing** — protocol earns recurring revenue from consumer protocols using the on-chain ag price index (post-M2).
+4. **Treasury USDC balance ≥ remaining repayment obligation** — protocol can repay outright without ongoing fee routing.
 
-**Cap:** cumulative repayment ≤ **1.5× grant amount** ($225,000), or **36 months from M2** (Settlement Index live), whichever comes first. After the cap is met, share drops to 0%.
+Once any threshold trips, the protocol's 5% commerce fee on subsequent NFT and merchant settlement activity (plus any Settlement Index subscription rev-share) routes 5% to the Arbitrum DAO repayment escrow until the cap is hit.
+
+Important: **a single partner Commerce NFT project selling out does not by itself trigger repayment.** Partner projects can be small ($40k CSAs, micro-launches) and a sellout there is positive demand but not financial capacity. The thresholds above ensure repayment begins only when the protocol can support it — protecting both the DAO (real money flowing back) and the protocol (operating runway intact).
+
+**Cap:** cumulative repayment ≤ **1.5× grant amount** ($225,000), or **36 months from the first threshold trip**, whichever comes first. After the cap is met, share drops to 0%.
 
 Why this shape:
 - Bounded enough to keep the protocol attractive to future investors and lenders
 - Generous enough to signal serious commitment to fairness ("we'll pay you back 50% premium when it succeeds")
-- Aligned with the zkFetch precedent (3% / 10% revenue share to DAO) but capped to avoid unbounded liability
-- Dual NFT triggers mean the DAO gets paid back faster if the consumer-facing side of the protocol moonshots, not only on the slower subscription-revenue track
+- Aligned with the zkFetch precedent (3% / 10% revenue share to DAO) but capacity-gated to avoid forcing repayment before the protocol can afford it
+- Multiple paths mean the DAO gets paid back from whichever surface of the protocol moonshots first — Nubians North primary demand, broader CURD commerce flow, Settlement Index subscriptions, or treasury accumulation
 
 ---
 

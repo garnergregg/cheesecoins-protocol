@@ -147,6 +147,47 @@ For technical and investor audiences, lead with the productive-capacity-tokeniza
 
 ---
 
+## Partner onboarding plan (M6 — 30 partners across 5 tiers)
+
+The 30-partner target referenced in the Arbitrum grant breaks down as:
+
+| Tier | Target count | Rationale |
+|---|---|---|
+| Merchants (retailers, restaurants, market stalls) | 12 | Largest tier by population — most fertile recruiting ground; conversion is fastest |
+| Vendors (feed, equipment, input suppliers) | 7 | Existing relationships from Greg's farm operations make first-cohort recruiting straightforward |
+| Producers (farms — direct peers of Nubians North) | 5 | Higher per-partner value but lower-count; recruited via direct relationship |
+| Distributors (wholesalers) | 3 | Smaller universe, longer sales cycle; floor of 3 demonstrates the supply-chain story |
+| Processors (cheese plants, abattoirs) | 3 | Same — higher complexity, smaller universe |
+| **Total** | **30** | All 5 tiers represented; tier diversity verifiable from `MerchantTierSet` event data |
+
+The breakdown reflects realistic Ontario small-ag ecosystem composition: many retailers and input vendors, fewer specialized processors and distributors. Reviewers and partners can verify tier coverage at any time by reading `MerchantTierSet(address indexed merchant, Tier indexed tier)` events on the registry contract at `0xCA7f73aCb86a8aCEf897c06eE23Adf8cDf8709bA`.
+
+### Soft cost per merchant — ~$100 average
+
+Per-partner direct onboarding cost:
+
+- Gas subsidy: $5 (Arbitrum is cheap)
+- Printed onboarding materials in English + French: $10
+- 30-minute video onboarding call (founder time, attributed at modest hourly): $40
+- Travel + booth time at regional farmers' markets / events: $40 (averaged across in-person and remote partners)
+- Misc + buffer: $5
+
+Total soft cost across 30 partners ≈ $3,000 — small fraction (~3.75%) of the $80,000 promotion budget.
+
+### How the $80k promotion bucket is spent
+
+The bulk of the promotion bucket is **not** direct soft cost. It funds:
+
+- **Paid acquisition campaigns** — boosted social posts, targeted ads, content sponsorships across the demographic segments documented in `docs/CONTENT_STRATEGY.md` (Tier 1A young women, 1B crypto-native men, 2A homesteaders, 3A international markets)
+- **Partner incentive payments at gates** — small token incentives for early partners to commit and integrate (typical Web3 grant-program shape)
+- **Production support** — Annie + Alice educational content, voice + video creation
+- **Event presence** — booth fees, materials, travel for farmers' markets, ag conferences, regional crypto/RWA events
+- **Contingency** — the partner-acquisition curve is non-linear; reserve absorbs surprise costs
+
+Detailed breakdown can be exposed if the Arbitrum Foundation requests it during review.
+
+---
+
 ## Source of truth
 
 This doc is the canonical positioning reference for Cheesecoins. Any external copy — grant pitches, investor decks, marketing site, press, partner outreach — should derive from here. When the protocol's reality changes (new contracts deployed, new milestones hit, roadmap items completed), this doc gets updated and downstream copy follows.
