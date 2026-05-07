@@ -103,7 +103,7 @@ Cross-border ag commerce (Canada → US) inherently has FX risk. A vendor accept
 
 The `CheesecoinsOptionsMarket` is live on Sepolia (corn, wheat, soybeans, USD/CAD) but **NOT being shipped to mainnet on the current data quality**. Reason: USDA AMS publishes weekdays only — Friday-close prices are stale through Monday, which is fine for testnet validation but unacceptable for real-money exercise.
 
-We verified in April 2026 that **no oracle on any chain currently provides reliable agricultural settlement prices** — Pyth has 6 of 7 ag commodity feeds dead, Chainlink has zero ag feeds, RedStone/API3/Supra advertise but don't publish. This is a structural DeFi data gap, not a Cheesecoins-specific limitation.
+We verified through May 7, 2026 that **no oracle on any chain currently provides reliable agricultural settlement prices**. Pyth Network's 3,000+ price feeds cover crypto, equities, FX, precious metals, oil, and macroeconomic indicators but include zero agricultural commodities — Pyth's own blog frames ag commodities as "potential future additions through governance." Chainlink Data Feeds cover precious metals and oil but not agricultural commodities. RedStone, API3, and Supra advertise broad commodity capabilities but do not publish live agricultural commodity feeds. This is a structural DeFi data gap, not a Cheesecoins-specific limitation.
 
 The grant funds the seed integration of a derived CME-based settlement index — `CommodityPriceOracle` v2 with multi-keeper redundancy, real-time CME-derived ingestion, and a public consumption interface (`getPrice(marketId)` already deployed). Other DeFi protocols then consume the index; Cheesecoins becomes the on-chain settlement index for agricultural commodities, not a downstream consumer of someone else's feed.
 
@@ -156,18 +156,25 @@ Specific Arbitrum-native dependencies:
 
 ## 6. Roadmap and milestones
 
-Grant disbursement tied to verifiable on-chain milestones. Every trigger reads from public Arbitrum One state — reviewers can independently verify via `cast logs` or Arbiscan.
+Grant disbursement is tied to verifiable on-chain milestones. Every trigger reads from public Arbitrum One state — reviewers can independently verify via `cast logs` or Arbiscan. **Greg has begun partner onboarding in May 2026 independent of this grant** (the protocol is live; partners can register today). The grant accelerates and extends what's already in flight.
 
-| # | Milestone | Trigger (on-chain verifiable) | Disbursement |
-|---|---|---|---|
-| **M0** | **Grant accepted, kickoff** | Grant agreement signed | $20,000 promotion tranche 1 |
-| **M1** | **First 5 partners onboarded** across at least 2 tiers | 5 distinct addresses with `setMerchantWithTier` events on `MerchantRegistry`; tier diversity verifiable from event data | $20,000 promotion tranche 2 |
-| **M2** | **15 partners onboarded** across at least 3 tiers, with at least one settled CURD payment per partner | 15 unique `MerchantStatusChanged` events + 15+ `MerchantSettlement` events | $20,000 promotion tranche 3 + $20,000 liquidity tranche (CURD/USDC pool seeded) |
-| **M3** | **30 partners onboarded** across all 5 tiers + first Commerce NFT project sold-out | 30 `MerchantStatusChanged` events covering all 5 `Tier` enum values + one `ProjectSale` `SaleClosed` event | $20,000 promotion tranche 4 |
-| **M4** | **FxPeggedRedemption module audited and deployed to mainnet** | Audit report published; module deployed and configured on `FiatRedemptionVault` proxy | $6,000 audit + contingency + $18,000 founder development (paid against monthly delivery milestones, 6 months) + $6,000 external contractor (M4-stage deliverables) + $12,000 ops stipend (6 months) = $42,000 |
-| **M5** | **CME data agreement signed; first integration test live on Sepolia** | Signed agreement evidence + on-chain price update events from CME-derived data on `CommodityPriceOracle` | $8,000 (CME data seed) |
+Milestones are listed in chronological order. M-numbers are stable identifiers, not strictly sequential, so disbursement and repayment references stay coherent across documents.
 
-**Per-tier breakdown for M3** (30 partners across all 5 tiers):
+| # | Target | Milestone | Trigger (on-chain verifiable) | Disbursement |
+|---|---|---|---|---|
+| **M1** | Jun 2026 | 5 partners across 2+ tiers | 5 `setMerchantWithTier` events on `MerchantRegistry` (likely already onboarded by M0; fires immediately on grant signing) | $25,000 |
+| **M0** | Jul 2026 | **Grant accepted, promo campaign launches** | Grant agreement signed; promo spend begins | $55,000 |
+| **M2** | Jul 2026 | CME data agreement signed; integration test live on Sepolia | Signed agreement evidence + on-chain price update events on `CommodityPriceOracle` | $13,000 |
+| **M3** | Aug 2026 | 15 partners across 3+ tiers, CURD/USDC pool live | 15 `MerchantStatusChanged` events + Uniswap V3 0.05% stablecoin pool deploy tx | $35,000 |
+| **M4** | Aug 2026 | First Commerce NFT project fully sold out | All scenes in a partner Commerce NFT project hit `SCENE_MAX_SUPPLY` cap | *Repayment trigger — see §8* |
+| **M5** | Aug 2026 | FxPeggedRedemption audited and deployed to mainnet | Audit report published + module configured on `FiatRedemptionVault` proxy | $17,000 |
+| **M6** | Dec 2026 | 30 partners across all 5 tiers | 30 `MerchantStatusChanged` events covering all 5 `Tier` enum values | $5,000 |
+| **M7** | Mar 2027 | Nubians North NFT 50% sellout | `mintedPerScene` cumulative ≥ 50% of `TOTAL_MAX_SUPPLY` (25,000 of 50,000) | *Repayment trigger — see §8* |
+| | | | **Total disbursed** | **$150,000** |
+
+The full per-milestone disbursement breakdown by bucket (promo, liquidity, founder development, operations, contractor, audit, CME) lives in [`docs/GRANT_DISBURSEMENT_SCHEDULE.xlsx`](https://github.com/garnergregg/cheesecoins-protocol/blob/main/docs/GRANT_DISBURSEMENT_SCHEDULE.xlsx) — editable workbook with milestone dates, disbursement schedule, and repayment-trigger logic.
+
+**Per-tier breakdown for M6** (30 partners across all 5 tiers):
 
 | Tier | Target count | Rationale |
 |---|---|---|
@@ -200,13 +207,13 @@ Promotion-led structure, milestone-gated, on-chain auditable.
 
 | Bucket | Amount | % | Release gate |
 |---|---|---|---|
-| **Promotion + partner incentives** | **$80,000** | **53%** | Tranched $20k upfront, $20k each at 5 / 15 / 30 partner thresholds (see M0–M3) |
-| **Founder development** | $18,000 | 12% | $3k/month × 6 months, milestone-tied development & maintenance |
-| **External contractor capacity** | $6,000 | 4% | Reserved against M4 deliverables (FxPegged audit prep, multi-keeper infra). Hired as needed against specific deliverables, not a standing salary. |
-| **Liquidity tranche** (CURD/USDC seed on Arbitrum DEX) | $20,000 | 13% | Released at M2 when pool deploys at calibrated start price |
-| **Ongoing operations stipend** (multi-keeper infra, uptime, support) | $12,000 | 8% | $2k/month × 6 months |
-| **CME data seed** | $8,000 | 5% | M5: released on first paid CME integration test |
-| **Audit + contingency** | $6,000 | 4% | M4: layers with the separate Arbitrum Audit Program application |
+| **Promotion + partner incentives** | **$80,000** | **53%** | Front-loaded — $50k at M0 kickoff, $20k at M1 (5 partners), $10k at M3 (15 partners + pool live) |
+| **Founder development** | $18,000 | 12% | $3k disbursed at each of M0, M1, M2, M3, M5, M6 — six tranches, milestone-tied |
+| **External contractor capacity** | $6,000 | 4% | M5: hired as needed against FxPegged audit prep + multi-keeper infra deliverables |
+| **Liquidity tranche** (CURD/USDC seed on Uniswap V3) | $20,000 | 13% | M3: released when 0.05% stablecoin-tier pool deploys at calibrated start price |
+| **Ongoing operations stipend** (multi-keeper infra, uptime, support) | $12,000 | 8% | $2k disbursed at each of M0, M1, M2, M3, M5, M6 — six tranches alongside founder dev |
+| **CME data seed** | $8,000 | 5% | M2: released on signed CME agreement + first integration test live on Sepolia |
+| **Audit + contingency** | $6,000 | 4% | M5: layers with the separate Arbitrum Audit Program application |
 
 **Total: $150,000.**
 
@@ -226,14 +233,21 @@ Cheesecoins is not asking for perpetual subsidy. The grant is the **runway** for
 2. Subscription fees from consumer protocols using the Cheesecoins Agricultural Settlement Index
 3. FX hedge premium spread (post FxPeggedRedemption mainnet deploy)
 
-**Revenue share back to Arbitrum DAO:**
+**Revenue share back to Arbitrum DAO — dual-trigger.**
 
-> Subscription-fee revenue from consumer protocols accruing to the Arbitrum DAO treasury at **5%**, **capped at 1.5× grant amount** (cumulative payback ≤ $225,000), or **36 months from launch, whichever comes first**. After cap is met, share drops to 0%.
+Repayment to the Arbitrum DAO treasury begins on the **earlier** of three signals:
 
-Why 5% / 1.5×:
-- Bounded enough to keep the protocol attractive to future investors / lenders
+1. **M4 — first Commerce NFT project fully sold out.** The protocol's 5% commerce fee on subsequent NFT proceeds routes to a repayment escrow until the cap is hit. Earliest-possible signal: a partner project sold out demonstrates real demand and commerce flow.
+2. **M7 — Nubians North NFT project 50% sellout** (25,000 of 50,000 NFTs minted). Larger signal: the flagship collection at the half-mark indicates durable secondary demand. The protocol's 5% commerce fee on Nubians North primary sales routes to repayment from this point.
+3. **Subscription rev-share** — 5% of subscription revenue from Settlement Index consumers accruing to the DAO treasury once Settlement Index integration is live (M2 forward).
+
+**Cap:** cumulative repayment ≤ **1.5× grant amount** ($225,000), or **36 months from M2** (Settlement Index live), whichever comes first. After the cap is met, share drops to 0%.
+
+Why this shape:
+- Bounded enough to keep the protocol attractive to future investors and lenders
 - Generous enough to signal serious commitment to fairness ("we'll pay you back 50% premium when it succeeds")
 - Aligned with the zkFetch precedent (3% / 10% revenue share to DAO) but capped to avoid unbounded liability
+- Dual NFT triggers mean the DAO gets paid back faster if the consumer-facing side of the protocol moonshots, not only on the slower subscription-revenue track
 
 ---
 
@@ -246,7 +260,7 @@ All metrics derivable from on-chain events. No self-reported numbers.
 - CURD/USDC pool depth and 30-day volume
 - Active wallets paying via the merchant rail (90-day rolling)
 - Commerce NFT projects launched and sold (ProjectSale events)
-- Settlement Index oracle uptime % and freshness lag (post-M5)
+- Settlement Index oracle uptime % and freshness lag (post-M2)
 - NFT secondary market activity on Nubians North scene collection
 
 ---
@@ -271,7 +285,7 @@ The years he spent fighting banks to recover from 2008 — and refusing to file 
 
 Father, Husband and now Grandfather, Greg has a vested interest in effecting change and creating an environment where financial freedom (same as Freedom) can be a reality for generations to come. Hobbies are playing guitar, writing songs, playing hockey. Generally referred to as a laughing stock by people watching him fight the system, and as a tough SOB by everyone who's actually been in the trenches with him.
 
-**Advisory committee (forming).** A three-person advisory committee is being assembled to provide strategic counsel through the grant period. Compensation is structured as a CURD treasury allocation with vesting (no grant funds used for advisor compensation). Target areas of expertise: (a) agricultural commerce and supply-chain operations, (b) Solidity / smart-contract security, (c) DeFi go-to-market and partner growth. Names will be published before milestone M2 disbursement.
+**Advisory committee (forming).** A three-person advisory committee is being assembled to provide strategic counsel through the grant period. Compensation is structured as a CURD treasury allocation with vesting (no grant funds used for advisor compensation). Target areas of expertise: (a) agricultural commerce and supply-chain operations, (b) Solidity / smart-contract security, (c) DeFi go-to-market and partner growth. Names will be published before milestone M3 disbursement (15 partners + CURD/USDC pool live).
 
 **Contractor capacity (reserved).** $6k of the grant budget is held against specific M4-stage deliverables (FxPegged audit prep, multi-keeper oracle infra). Engaged on a per-deliverable basis, not as a standing salary. This keeps the operation lean while providing structured surge capacity when audit-grade work is in flight.
 
