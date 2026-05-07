@@ -279,11 +279,27 @@ All metrics derivable from on-chain events. No self-reported numbers.
 
 ---
 
-## 11. Team and growth structure
+## 11. Risk and honesty disclosures
+
+- The protocol is **founder-controlled at Stage 0 governance.** Decentralization is gradual and already wired on-chain: the deployed `FounderDecentralization` contract reduces founder governance weight on a 5-year linear schedule (50% Y1 → 40% Y2 → 30% Y3 → 20% Y4 → 10% Y5 → 0% cliff at Y5+). Super NFT holders gain proportional weight. This is documented in `docs/TOKENOMICS_V2.md` §3.3 and verifiable on Arbiscan.
+- **Founder allocation is locked in 4-year linear vesting.** The full 20M CURD founder allocation was transferred into `FounderVestingWallet` (`0xbac3d40668Ce4030ab5D8cF0bBCFDA457E1216f5`) on May 5, 2026 with `start = March 25, 2026` (original mainnet launch date) — restoring the originally-designed vesting schedule that was authored at launch but not deployed. As of grant submission, ~2.8% (~575k CURD) is vested; the rest remains locked. Verifiable on-chain: `cast call <vesting> "releasable()(uint256)"`.
+- One operations wallet was compromised on March 28, 2026 via an EIP-7702 delegation attack during an unrelated ENS interaction (~$130 lost). Mainnet was never exposed; the Safe was cleaned the same day. Sepolia testnet contracts deployed by that wallet are quarantined; the Sepolia stack was redeployed under a clean key on May 2, 2026 and the V3 registry upgrade was tested end-to-end on Sepolia before mainnet. Full incident notes in repo memory.
+- The protocol carries **no debt and has no outside investors.** The grant is the first external capital.
+- **Mainnet options market is intentionally NOT shipping yet.** The current Sepolia oracle (USDA AMS keeper) is fine for testnet but stale on weekends — unacceptable for real-money exercise. Phase 2 deliverable, contingent on the CME data integration. We'd rather miss a ship date than expose users to weekend-stale settlement.
+
+---
+
+## 12. Team and growth structure
 
 **Founder (current).** Gregory Garner — solo founder. Operates Nubians North dairy goat farm in Ontario, Canada. Has been building the Cheesecoins protocol since April 2025 — 13 months of solo work as of submission. Solidity / Foundry on the contract side; Next.js + Thirdweb on the front-end at cheesecoins.com. Treasury secured via 2-of-2 Gnosis Safe (Ledger + MetaMask). Documentary on the project ("The Money That Feeds You") on YouTube.
 
-**Background.**
+**Advisory committee (forming).** A three-person advisory committee is being assembled to provide strategic counsel through the grant period. Compensation is structured as a CURD treasury allocation with vesting (no grant funds used for advisor compensation). Target areas of expertise: (a) agricultural commerce and supply-chain operations, (b) Solidity / smart-contract security, (c) DeFi go-to-market and partner growth. Names will be published before milestone M3 disbursement (15 partners + CURD/USDC pool live).
+
+**Contractor capacity (reserved).** $6k of the grant budget is held against specific M4-stage deliverables (FxPegged audit prep, multi-keeper oracle infra). Engaged on a per-deliverable basis, not as a standing salary. This keeps the operation lean while providing structured surge capacity when audit-grade work is in flight.
+
+**Parallel ecosystem support.** We will apply to the **Arbitrum Mentorship Program** Cohort 2 when applications open. The protocol matches the program's eligibility profile (early-stage builder, working prototype on Arbitrum, MVP/seed stage). Mentorship Program engagement is independent of this grant — no overlap or double-funding.
+
+**Background — the founder.**
 
 Greg grew up on a registered Holstein dairy farm but couldn't buy his way into Canada's quota-locked dairy system as a young farmer — so he had to move on from that dream. He earned an Ag Production and Management degree from University of Guelph's Ridgetown Campus, worked breeding-stock exports for Rowntree Farms and Cormdale Genetics, ran Manderley's turfgrass operation for five years, and then built Elevated Landscape Technologies — a green-roof and living-wall company the 2008 housing crisis nearly destroyed.
 
@@ -292,22 +308,6 @@ The years he spent fighting banks to recover from 2008 — and refusing to file 
 Father, Husband and now Grandfather, Greg has a vested interest in effecting change and creating an environment where financial freedom (same as Freedom) can be a reality for generations to come. When Greg is not busy trying to explain blockchain to the huddled masses he is busy being a Husband, Father, Grandfather, and enjoys playing guitar, playing hockey, working on the farm, and of course cooking a nice meal to enjoy with Cheryl over a bottle of wine.
 
 That dinner-table image is also Cheesecoins' path to mass adoption. Most people will never read a DeFi whitepaper — but everybody eats. The protocol meets them where they already are: at the farmers' market, the local cheese counter, the family dinner table. The blockchain becomes invisible plumbing; the food, the farm, and the community do the convincing. That is how Cheesecoins onboards the people still on the outside looking in — not by explaining DeFi to them, but by giving them something real to belong to.
-
-**Advisory committee (forming).** A three-person advisory committee is being assembled to provide strategic counsel through the grant period. Compensation is structured as a CURD treasury allocation with vesting (no grant funds used for advisor compensation). Target areas of expertise: (a) agricultural commerce and supply-chain operations, (b) Solidity / smart-contract security, (c) DeFi go-to-market and partner growth. Names will be published before milestone M3 disbursement (15 partners + CURD/USDC pool live).
-
-**Contractor capacity (reserved).** $6k of the grant budget is held against specific M4-stage deliverables (FxPegged audit prep, multi-keeper oracle infra). Engaged on a per-deliverable basis, not as a standing salary. This keeps the operation lean while providing structured surge capacity when audit-grade work is in flight.
-
-**Parallel ecosystem support.** We will apply to the **Arbitrum Mentorship Program** Cohort 2 when applications open. The protocol matches the program's eligibility profile (early-stage builder, working prototype on Arbitrum, MVP/seed stage). Mentorship Program engagement is independent of this grant — no overlap or double-funding.
-
----
-
-## 12. Risk and honesty disclosures
-
-- The protocol is **founder-controlled at Stage 0 governance.** Decentralization is gradual and already wired on-chain: the deployed `FounderDecentralization` contract reduces founder governance weight on a 5-year linear schedule (50% Y1 → 40% Y2 → 30% Y3 → 20% Y4 → 10% Y5 → 0% cliff at Y5+). Super NFT holders gain proportional weight. This is documented in `docs/TOKENOMICS_V2.md` §3.3 and verifiable on Arbiscan.
-- **Founder allocation is locked in 4-year linear vesting.** The full 20M CURD founder allocation was transferred into `FounderVestingWallet` (`0xbac3d40668Ce4030ab5D8cF0bBCFDA457E1216f5`) on May 5, 2026 with `start = March 25, 2026` (original mainnet launch date) — restoring the originally-designed vesting schedule that was authored at launch but not deployed. As of grant submission, ~2.8% (~575k CURD) is vested; the rest remains locked. Verifiable on-chain: `cast call <vesting> "releasable()(uint256)"`.
-- One operations wallet was compromised on March 28, 2026 via an EIP-7702 delegation attack during an unrelated ENS interaction (~$130 lost). Mainnet was never exposed; the Safe was cleaned the same day. Sepolia testnet contracts deployed by that wallet are quarantined; the Sepolia stack was redeployed under a clean key on May 2, 2026 and the V3 registry upgrade was tested end-to-end on Sepolia before mainnet. Full incident notes in repo memory.
-- The protocol carries **no debt and has no outside investors.** The grant is the first external capital.
-- **Mainnet options market is intentionally NOT shipping yet.** The current Sepolia oracle (USDA AMS keeper) is fine for testnet but stale on weekends — unacceptable for real-money exercise. Phase 2 deliverable, contingent on the CME data integration. We'd rather miss a ship date than expose users to weekend-stale settlement.
 
 ---
 
