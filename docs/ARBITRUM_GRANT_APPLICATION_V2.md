@@ -13,34 +13,54 @@
 
 ---
 
-### What's novel — the NFT primitive
+### What's novel — productive-capacity tokenization
 
-Most agricultural tokenization projects pick one of three lanes: pure ownership tokens (no yield), DeFi receipts (no underlying asset), or governance tokens (no economics). Cheesecoins fuses all four into a single NFT primitive backed by a working farm.
+**Food sovereignty and financial freedom are the same idea said two different ways.** Both are about escaping dependence on systems that can fail you — industrial food supply, or centralized banking. Cheesecoins is the protocol that lets capital flow toward real productive activity (farms, processors, distributors, retailers) the way banks have always made it flow — but cheaper, faster, and without the gate at a banker's desk.
 
-Each Scene NFT in the Nubians North collection is, simultaneously:
+**Most agricultural tokenization projects monetize what's already there**: they tokenize the land, the barn, the herd as fractional ownership claims. Investors buy a piece of a static asset; their return depends on resale or rent. That's REIT-style — structurally indistinguishable from what banks have done with farm assets for a hundred years, just with a token wrapper.
 
-- **A claim on a real-world asset** — the NFT represents a slice of a registered `Producer` in MerchantRegistry V3: a working dairy goat farm in Ontario generating real cash flow.
-- **A yield-bearing financial instrument** — holders stake CURD against the NFT to earn protocol yield from the BootstrapYieldPool, and (post-Phase 2) from FX-hedge premium reserves and treasury T-bill yield.
-- **A governance key** — staking enough CURD against an NFT confers Super Holder status, granting log-weighted votes on protocol upgrades and supply expansion (66% supermajority, 30-day vote, 2-day timelock).
-- **A marketplace access token** — the same NFT will (Phase 2) wrap into a public fractional staking pool that lets anyone DCA into a real working farm in $5 increments — see §4.4.
+**Cheesecoins is built differently.** Each NFT tokenizes **productive capacity** — a claim against the future cash flow a real operation will generate as it scales. An NFT holder isn't buying a fraction of Nubians North. They're extending capital against the operation's growth, in exchange for a claim on the protocol's economic flows for as long as they hold. Structural intent is closer to a productive-capacity bond than a fractional-equity ownership token.
+
+**Three design choices reinforce this:**
+
+1. **The NFT is the only gate.** No staking, no governance weight, no fractional pool participation, no Super Holder rewards exist without an NFT. Every CURD-holder seeking yield is also a project supporter — by construction.
+2. **Yield comes from productive activity, not asset rent.** Stakers earn from BootstrapYieldPool, FX-hedge premium reserves, T-bill yield on USDC reserves, and (Phase 2) fractional-pool management fees — not from NFT secondary-market appreciation or rent on tokenized infrastructure.
+3. **The same primitive scales across the whole supply chain.** MerchantRegistry V3's five-tier enum (vendor / producer / processor / distributor / merchant) means the same NFT-against-productive-plan structure works for a feed supplier, a cheese plant, a regional distributor, or a retail co-op. Capital flows to growth at every link; CURD settles every transaction; yield routes back to NFT holders. Bank-style intermediation collapses into a single integrated protocol.
+
+**Each Scene NFT in the Nubians North collection is, simultaneously:**
+
+- **A claim on a real-world asset** — a slice of a registered `Producer` in MerchantRegistry V3: a working dairy goat farm in Ontario generating real cash flow.
+- **A yield-bearing financial instrument** — stake CURD against the NFT to earn protocol yield from BootstrapYieldPool and (post-Phase 2) FX-hedge premium reserves and T-bill yield on treasury USDC.
+- **A governance key** — staking enough CURD confers Super Holder status, granting log-weighted votes on protocol upgrades and supply expansion (66% supermajority, 30-day vote, 2-day timelock).
+- **A marketplace access token** — Phase 2 fractional staking pools wrap each NFT into a public deposit pool that lets anyone DCA into a real working farm in $5 increments (see §4.4).
 
 The deployment side scales via a **project factory**: the deployed `CommerceNFTTemplate` proxy lets any registered producer launch their own project NFT collection through a single factory call. Today that's Nubians North. The next hundred farms onboarded under this grant inherit the same battle-tested template — no new contract development required to scale supply.
 
-This RWA + yield + governance + access stack, all in one NFT primitive tied to an operating farm, is uncommon in DeFi. It is the protocol's structural answer to the question "why does anyone hold this NFT instead of any other?" — every utility compounds the others.
+**What's standing today vs what's still ahead:**
+
+| Today (live on Arbitrum One) | This grant funds | Post-grant roadmap |
+|---|---|---|
+| MerchantRegistry V3 (5-tier supply chain), NubiansNorthNFT (100 of 50,000 minted), StakingManager (NFT-gated, 100 CURD min), BootstrapYieldPool funded with 5M CURD, CurdDirectSale loaded with 10M CURD, full deployment under 2-of-2 Gnosis Safe, 859 Foundry tests passing | 30 partners across 5 tiers, CURD/USDC liquidity pair, FX-pegged redemption mode, Settlement Index seed (CME data integration), Real Return Dashboard, fractional staking pools | Real-world-asset NFTs (small lift atop the existing primitive — same gate, new asset class), Farm Planner (web app for businesses to submit plans -> NFT issued against the plan), agricultural finance services (equipment loans, operating credit, insurance, HACCP, accounting — bank-replacement layer per the original tokenomics opportunity model), Food Box consumer integration (more complex; deferred) |
+
+This is the protocol's structural answer to the question "why does anyone hold this NFT instead of any other?" — every utility compounds the others, every new partner registered makes the whole stack more economically meaningful, and the same primitive scales from one farm to a fully-integrated agricultural finance ecosystem.
+
+Full positioning detail in [`docs/PROTOCOL_THESIS.md`](https://github.com/garnergregg/cheesecoins-protocol/blob/main/docs/PROTOCOL_THESIS.md).
 
 ---
 
 ## 1. One-paragraph summary
 
-Cheesecoins is a real-world-asset protocol that lets agricultural producers and the partners around them — vendors, processors, distributors, retailers — settle commerce on-chain in a single token (CURD). The protocol is live on Arbitrum One. Twelve contracts are deployed under a 2-of-2 Gnosis Safe; 200 million CURD is minted across treasury, yield pool, and direct-sale contracts; the BootstrapYieldPool holds 5,000,000 CURD for staker yield; CurdDirectSale is loaded with 10,000,000 CURD. As of May 4, 2026, **MerchantRegistry V3 is live on mainnet with a five-tier supply-chain enum** — making Cheesecoins the first protocol to formalize the full agricultural supply chain on-chain, not just a generic merchant rail. The flagship Nubians North dairy goat farm is registered as the first producer. This grant funds five workstreams measured against verifiable on-chain milestones: a six-month promotional onboarding campaign aimed at registering 30+ supply-chain partners across multiple tiers; a CURD/USDC liquidity pair; an FX-pegged redemption mode for cross-border merchants; the seed integration capital for an on-chain agricultural settlement index that fills a structural gap in DeFi data infrastructure; and consumer-facing additions (NFT-backed fractional staking pools and a real-return dashboard) that lower the user entry point and surface the protocol's economic story to a broader audience.
+Cheesecoins is an agricultural finance protocol that **tokenizes productive capacity** — issuing NFTs against verified business plans, settling supply-chain commerce on-chain in a single token (CURD), and routing yield from productive activity back to the NFT holders who extend the capital that funds growth. The function being performed is agricultural banking — capital provision against verified productive intent in exchange for yield — moved from gated bank desks to a public on-chain protocol. Today the focus is productive-capacity NFTs (Nubians North as flagship); the same primitive extends naturally to real-world-asset NFTs and a full bank-replacement service catalogue (equipment loans, insurance, HACCP, planning, accounting) on the post-grant roadmap. The protocol is live on Arbitrum One: twelve contracts deployed under a 2-of-2 Gnosis Safe; 200 million CURD minted across treasury, yield pool, and direct-sale contracts; the BootstrapYieldPool holds 5,000,000 CURD for staker yield; CurdDirectSale is loaded with 10,000,000 CURD. As of May 4, 2026, **MerchantRegistry V3 is live on mainnet with a five-tier supply-chain enum** — making Cheesecoins the first protocol to formalize the full agricultural supply chain on-chain, not a generic merchant rail. This grant funds five workstreams measured against verifiable on-chain milestones: a six-month promotional onboarding campaign aimed at registering 30+ supply-chain partners across multiple tiers; a CURD/USDC liquidity pair; an FX-pegged redemption mode for cross-border merchants; the seed integration capital for an on-chain agricultural settlement index that fills a structural gap in DeFi data infrastructure; and consumer-facing additions (NFT-backed fractional staking pools and a real-return dashboard) that lower the user entry point and surface the protocol's economic story to a broader audience.
 
 ---
 
-## 2. Mission: food sovereignty as freedom
+## 2. Mission: food sovereignty as financial freedom
 
-Agriculture is consolidating. Small and mid-sized farms are losing access to capital, distribution, and price-discovery — not because they produce worse food, but because the financial and supply-chain rails were never built for them. Cheesecoins is a freedom-tech response: blockchain rails that level the field without forcing farms to choose between joining and surviving.
+**Food sovereignty and financial freedom are the same idea said two different ways.** Both are about escaping dependence on systems that can fail you — industrial food supply, or centralized banking. The people who feel that deeply already live the values Cheesecoins is built on. Real things — soil, animals, labour, community — have value that no bank can print away.
 
-Our position is **more farms, not fewer.** The protocol is intentionally inclusive of larger operators — they participate as vendors, distributors, or merchants under the same registry as any small farm. The aim is decentralization without alienation.
+Agriculture is consolidating. Small and mid-sized farms are losing access to capital, distribution, and price discovery — not because they produce worse food, but because the financial and supply-chain rails were never built for them. Cheesecoins is a freedom-tech response: rails that level the field without forcing farms to choose between joining and surviving.
+
+Position: **more farms, not fewer.** The protocol is intentionally inclusive of larger operators — they participate as vendors, distributors, or merchants under the same registry as any small farm. The aim is decentralization without alienation.
 
 ---
 
